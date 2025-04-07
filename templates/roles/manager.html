@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Панель менеджера{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card mb-4">
+            <div class="card-header">
+                Меню менеджера
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action">Аналитика</a>
+                <a href="#" class="list-group-item list-group-item-action">Управление SEO</a>
+                <a href="#" class="list-group-item list-group-item-action">Маркетинг</a>
+                <a href="#" class="list-group-item list-group-item-action">Поддержка</a>
+                <a href="#" class="list-group-item list-group-item-action">Модерация товаров</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <h1 class="mb-4">Панель управления менеджера</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Добро пожаловать, {{ user.username }}!</h5>
+                <p class="card-text">Вы вошли как менеджер. У вас есть доступ к аналитике, SEO, маркетингу, поддержке и модерации товаров.</p>
+                
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <div class="card text-white bg-primary mb-3">
+                            <div class="card-header">Новые товары</div>
+                            <div class="card-body">
+                                <h5 class="card-title">14</h5>
+                                <p class="card-text">Ожидают модерации</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-success mb-3">
+                            <div class="card-header">Заказы</div>
+                            <div class="card-body">
+                                <h5 class="card-title">32</h5>
+                                <p class="card-text">За последние 24 часа</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-info mb-3">
+                            <div class="card-header">Посетители</div>
+                            <div class="card-body">
+                                <h5 class="card-title">156</h5>
+                                <p class="card-text">Онлайн сейчас</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

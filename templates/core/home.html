@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная - Marketplace{% endblock %}
+
+{% block content %}
+<div class="jumbotron p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Добро пожаловать в Marketplace</h1>
+        <p class="col-md-8 fs-4">Удобная платформа для покупок и продаж. Найдите все, что вам нужно, или станьте продавцом и начните свой бизнес.</p>
+        <a href="{% url 'products:product_list' %}" class="btn btn-primary btn-lg">Начать покупки</a>
+        <a href="{% url 'roles:seller_dashboard' %}" class="btn btn-outline-secondary btn-lg ms-2">Стать продавцом</a>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Для покупателей</h5>
+                <p class="card-text">Широкий ассортимент товаров, удобная навигация и безопасные платежи. Делайте покупки с уверенностью.</p>
+                <a href="{% url 'products:product_list' %}" class="btn btn-primary">Узнать больше</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Для продавцов</h5>
+                <p class="card-text">Простой способ начать продавать. Управляйте товарами, отслеживайте заказы и увеличивайте продажи.</p>
+                <a href="{% url 'roles:seller_dashboard' %}" class="btn btn-primary">Начать продавать</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Для партнеров</h5>
+                <p class="card-text">Станьте партнером Marketplace и получите доступ к нашей аудитории. Вместе мы можем расти быстрее.</p>
+                <a href="{% url 'roles:manager_dashboard' %}" class="btn btn-primary">Стать партнером</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2 class="mb-3">Популярные категории</h2>
+<div class="row mb-4">
+    <div class="col-md-2 col-4 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-laptop fs-1"></i>
+                <h6 class="card-title mt-2">Электроника</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 col-4 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-house-door fs-1"></i>
+                <h6 class="card-title mt-2">Дом и Сад</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 col-4 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-person fs-1"></i>
+                <h6 class="card-title mt-2">Одежда</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 col-4 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-controller fs-1"></i>
+                <h6 class="card-title mt-2">Игры</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 col-4 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-bicycle fs-1"></i>
+                <h6 class="card-title mt-2">Спорт</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 col-4 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-cart-check fs-1"></i>
+                <h6 class="card-title mt-2">Продукты</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2 class="mb-3">Рекомендуемые товары</h2>
+<div class="row">
+    {% for i in '12345'|make_list %}
+    <div class="col-md-3 mb-4">
+        <div class="card">
+            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Товар {{ i }}">
+            <div class="card-body">
+                <h5 class="card-title">Товар {{ i }}</h5>
+                <p class="card-text">Краткое описание товара. Узнайте больше, нажав на кнопку.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-primary fw-bold">₽1,999</span>
+                    <a href="#" class="btn btn-sm btn-outline-primary">В корзину</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+{% endblock %} 

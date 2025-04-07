@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Экспорт товаров{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <h1 class="text-2xl font-bold mb-6">Экспорт товаров</h1>
+        
+        <div class="mb-8">
+            <h2 class="text-lg font-semibold mb-3">Информация об экспорте</h2>
+            <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded">
+                <p class="mb-2">Вы можете экспортировать товары в следующих форматах:</p>
+                <ul class="list-disc ml-6 mb-3">
+                    <li><strong>CSV</strong> - простой табличный формат, совместимый с большинством программ</li>
+                    <li><strong>JSON</strong> - детальный формат с включением всех атрибутов и изображений</li>
+                    <li><strong>XML</strong> - структурированный формат для обмена данными</li>
+                </ul>
+                
+                <p class="mb-2">Вы можете экспортировать все товары или выбрать конкретную категорию.</p>
+                
+                <p class="text-sm mt-3">
+                    <strong>Примечание:</strong> Для большого количества товаров экспорт может занять продолжительное время.
+                </p>
+            </div>
+        </div>
+        
+        <form method="post" class="max-w-xl">
+            {% csrf_token %}
+            
+            <div class="mb-4">
+                <label for="{{ form.file_format.id_for_label }}" class="block text-gray-700 mb-2">
+                    {{ form.file_format.label }}
+                </label>
+                {{ form.file_format }}
+                {% if form.file_format.errors %}
+                <div class="text-red-600 text-sm mt-1">
+                    {{ form.file_format.errors }}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-6">
+                <label for="{{ form.category.id_for_label }}" class="block text-gray-700 mb-2">
+                    {{ form.category.label }}
+                </label>
+                {{ form.category }}
+                {% if form.category.errors %}
+                <div class="text-red-600 text-sm mt-1">
+                    {{ form.category.errors }}
+                </div>
+                {% endif %}
+                <p class="text-sm text-gray-500 mt-1">
+                    Оставьте пустым для экспорта всех товаров
+                </p>
+            </div>
+            
+            <div class="flex items-center">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md">
+                    Экспортировать
+                </button>
+                <a href="{% url 'products:product_list' %}" class="ml-4 text-gray-600 hover:text-gray-800">
+                    Отмена
+                </a>
+            </div>
+        </form>
+        
+        <div class="mt-8 border-t pt-6">
+            <h2 class="text-lg font-semibold mb-3">Использование экспортированных данных</h2>
+            <p class="text-gray-700 mb-2">
+                Экспортированные данные можно использовать для:
+            </p>
+            <ul class="list-disc ml-6">
+                <li>Резервного копирования информации о товарах</li>
+                <li>Анализа данных во внешних инструментах</li>
+                <li>Переноса товаров на другие платформы</li>
+                <li>Массового обновления через редактирование и повторный импорт</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %} 

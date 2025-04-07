@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход в аккаунт{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Вход в аккаунт</h2>
+                
+                {% if form.errors %}
+                <div class="alert alert-danger">
+                    Пожалуйста, исправьте следующие ошибки:
+                    {{ form.non_field_errors }}
+                    {% for field in form %}
+                        {% if field.errors %}
+                            <div>{{ field.label }}: {{ field.errors|striptags }}</div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label">Имя пользователя</label>
+                        <input type="text" name="username" class="form-control" id="id_username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_password" class="form-label">Пароль</label>
+                        <input type="password" name="password" class="form-control" id="id_password" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Войти</button>
+                    </div>
+                    <input type="hidden" name="next" value="{{ next }}">
+                </form>
+                
+                <div class="text-center mt-3">
+                    <p>Демонстрационные учетные записи:</p>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Роль</th>
+                                    <th>Логин</th>
+                                    <th>Пароль</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Администратор</td>
+                                    <td>admin</td>
+                                    <td>admin123</td>
+                                </tr>
+                                <tr>
+                                    <td>Менеджер</td>
+                                    <td>manager</td>
+                                    <td>manager123</td>
+                                </tr>
+                                <tr>
+                                    <td>Продавец</td>
+                                    <td>seller</td>
+                                    <td>seller123</td>
+                                </tr>
+                                <tr>
+                                    <td>Пользователь</td>
+                                    <td>user</td>
+                                    <td>user123</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

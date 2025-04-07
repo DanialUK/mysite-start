@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Панель продавца{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card mb-4">
+            <div class="card-header">
+                Меню продавца
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action">Мои товары</a>
+                <a href="#" class="list-group-item list-group-item-action">Добавить товар</a>
+                <a href="#" class="list-group-item list-group-item-action">Категории</a>
+                <a href="#" class="list-group-item list-group-item-action">SEO настройки</a>
+                <a href="#" class="list-group-item list-group-item-action">Импорт/Экспорт</a>
+                <a href="#" class="list-group-item list-group-item-action">Статистика продаж</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <h1 class="mb-4">Панель управления продавца</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Добро пожаловать, {{ user.username }}!</h5>
+                <p class="card-text">Вы вошли как продавец. Здесь вы можете управлять своими товарами, категориями и настройками SEO.</p>
+                
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <div class="card text-white bg-primary mb-3">
+                            <div class="card-header">Товары</div>
+                            <div class="card-body">
+                                <h5 class="card-title">87</h5>
+                                <p class="card-text">Активных товаров</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-success mb-3">
+                            <div class="card-header">Продажи</div>
+                            <div class="card-body">
+                                <h5 class="card-title">28</h5>
+                                <p class="card-text">За последние 24 часа</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-warning mb-3">
+                            <div class="card-header">Доход</div>
+                            <div class="card-body">
+                                <h5 class="card-title">₽42,850</h5>
+                                <p class="card-text">За текущий месяц</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card mb-4">
+            <div class="card-header">
+                Личный кабинет
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action">Мой профиль</a>
+                <a href="#" class="list-group-item list-group-item-action">Мои заказы</a>
+                <a href="#" class="list-group-item list-group-item-action">Избранное</a>
+                <a href="#" class="list-group-item list-group-item-action">Сообщения</a>
+                <a href="#" class="list-group-item list-group-item-action">Отзывы</a>
+                <a href="#" class="list-group-item list-group-item-action">Настройки</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <h1 class="mb-4">Личный кабинет</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Добро пожаловать, {{ user.username }}!</h5>
+                <p class="card-text">Здесь вы можете просматривать свои заказы, избранные товары и управлять своим аккаунтом.</p>
+                
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <div class="card text-white bg-primary mb-3">
+                            <div class="card-header">Заказы</div>
+                            <div class="card-body">
+                                <h5 class="card-title">5</h5>
+                                <p class="card-text">Всего заказов</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-info mb-3">
+                            <div class="card-header">Избранное</div>
+                            <div class="card-body">
+                                <h5 class="card-title">12</h5>
+                                <p class="card-text">Товаров в избранном</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-success mb-3">
+                            <div class="card-header">Отзывы</div>
+                            <div class="card-body">
+                                <h5 class="card-title">3</h5>
+                                <p class="card-text">Оставленных отзывов</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4 class="mt-4">Последние заказы</h4>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>№ заказа</th>
+                                <th>Дата</th>
+                                <th>Статус</th>
+                                <th>Сумма</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>12345</td>
+                                <td>05.04.2025</td>
+                                <td><span class="badge bg-success">Доставлен</span></td>
+                                <td>₽2,450</td>
+                                <td><a href="#" class="btn btn-sm btn-outline-primary">Подробнее</a></td>
+                            </tr>
+                            <tr>
+                                <td>12346</td>
+                                <td>01.04.2025</td>
+                                <td><span class="badge bg-warning">В пути</span></td>
+                                <td>₽1,950</td>
+                                <td><a href="#" class="btn btn-sm btn-outline-primary">Подробнее</a></td>
+                            </tr>
+                            <tr>
+                                <td>12347</td>
+                                <td>28.03.2025</td>
+                                <td><span class="badge bg-success">Доставлен</span></td>
+                                <td>₽3,200</td>
+                                <td><a href="#" class="btn btn-sm btn-outline-primary">Подробнее</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,329 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Импорт товаров через веб-скрапинг{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <h1 class="text-2xl font-bold mb-6">Импорт товаров через веб-скрапинг</h1>
+        
+        <!-- Навигация по методам импорта -->
+        <div class="flex mb-8 border-b">
+            <a href="{% url 'products:import_products' %}" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                Импорт из файла
+            </a>
+            <a href="{% url 'products:import_api' %}" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                Импорт через API
+            </a>
+            <a href="{% url 'products:import_scraping' %}" class="px-4 py-2 font-semibold border-b-2 border-blue-500 text-blue-600">
+                Импорт через веб-скрапинг
+            </a>
+        </div>
+        
+        <div class="mb-8">
+            <h2 class="text-lg font-semibold mb-3">Инструкция по импорту через веб-скрапинг</h2>
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                <p class="mb-2">Этот инструмент позволяет импортировать товары с внешних веб-сайтов, используя веб-скрапинг.</p>
+                <p class="mb-2">Для настройки скрапинга необходимо указать:</p>
+                <ul class="list-disc ml-6 mb-3">
+                    <li>URL страницы со списком товаров</li>
+                    <li>CSS селекторы для элементов товаров (название, цена, и т.д.)</li>
+                    <li>Настройки пагинации (если необходимо)</li>
+                </ul>
+                
+                <div class="bg-yellow-50 p-3 rounded mt-3 border border-yellow-300">
+                    <p class="text-sm font-semibold mb-1">⚠️ Важные предупреждения:</p>
+                    <ul class="list-disc ml-6 text-sm">
+                        <li>Используйте скрапинг только для сайтов, где это разрешено</li>
+                        <li>Убедитесь, что скрапинг не нарушает условия использования сайта</li>
+                        <li>Устанавливайте разумные задержки между запросами (рекомендуется 2-3 секунды)</li>
+                        <li>Процесс может занять продолжительное время при большом количестве товаров</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <form method="post" class="max-w-4xl">
+            {% csrf_token %}
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="md:col-span-2">
+                    <h3 class="font-semibold mb-3 border-b pb-2">Основные настройки</h3>
+                </div>
+                
+                <div class="md:col-span-2">
+                    <label for="{{ form.url.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.url.label }}
+                    </label>
+                    {{ form.url }}
+                    {% if form.url.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.url.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.product_selector.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.product_selector.label }}
+                    </label>
+                    {{ form.product_selector }}
+                    {% if form.product_selector.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.product_selector.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.name_selector.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.name_selector.label }}
+                    </label>
+                    {{ form.name_selector }}
+                    {% if form.name_selector.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.name_selector.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.price_selector.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.price_selector.label }}
+                    </label>
+                    {{ form.price_selector }}
+                    {% if form.price_selector.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.price_selector.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.description_selector.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.description_selector.label }}
+                    </label>
+                    {{ form.description_selector }}
+                    {% if form.description_selector.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.description_selector.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.category_selector.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.category_selector.label }}
+                    </label>
+                    {{ form.category_selector }}
+                    {% if form.category_selector.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.category_selector.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.default_category.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.default_category.label }}
+                    </label>
+                    {{ form.default_category }}
+                    {% if form.default_category.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.default_category.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="md:col-span-2 mt-4">
+                    <h3 class="font-semibold mb-3 border-b pb-2">Настройки пагинации</h3>
+                </div>
+                
+                <div>
+                    <div class="flex items-center mb-2">
+                        {{ form.use_pagination }}
+                        <label for="{{ form.use_pagination.id_for_label }}" class="ml-2 text-gray-700">
+                            {{ form.use_pagination.label }}
+                        </label>
+                    </div>
+                    {% if form.use_pagination.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.use_pagination.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.pagination_type.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.pagination_type.label }}
+                    </label>
+                    {{ form.pagination_type }}
+                    {% if form.pagination_type.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.pagination_type.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.pagination_selector.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.pagination_selector.label }}
+                    </label>
+                    {{ form.pagination_selector }}
+                    {% if form.pagination_selector.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.pagination_selector.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.next_button_selector.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.next_button_selector.label }}
+                    </label>
+                    {{ form.next_button_selector }}
+                    {% if form.next_button_selector.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.next_button_selector.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.url_template.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.url_template.label }}
+                    </label>
+                    {{ form.url_template }}
+                    {% if form.url_template.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.url_template.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.delay_between_pages.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.delay_between_pages.label }}
+                    </label>
+                    {{ form.delay_between_pages }}
+                    {% if form.delay_between_pages.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.delay_between_pages.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="md:col-span-2 mt-4">
+                    <h3 class="font-semibold mb-3 border-b pb-2">Детальная информация о товаре</h3>
+                </div>
+                
+                <div>
+                    <div class="flex items-center mb-2">
+                        {{ form.get_details }}
+                        <label for="{{ form.get_details.id_for_label }}" class="ml-2 text-gray-700">
+                            {{ form.get_details.label }}
+                        </label>
+                    </div>
+                    {% if form.get_details.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.get_details.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="col-span-1">
+                    <label for="{{ form.link_selector.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.link_selector.label }}
+                    </label>
+                    {{ form.link_selector }}
+                    {% if form.link_selector.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.link_selector.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.detailed_description_selector.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.detailed_description_selector.label }}
+                    </label>
+                    {{ form.detailed_description_selector }}
+                    {% if form.detailed_description_selector.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.detailed_description_selector.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.attributes_selector.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.attributes_selector.label }}
+                    </label>
+                    {{ form.attributes_selector }}
+                    {% if form.attributes_selector.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.attributes_selector.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.attribute_name_selector.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.attribute_name_selector.label }}
+                    </label>
+                    {{ form.attribute_name_selector }}
+                    {% if form.attribute_name_selector.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.attribute_name_selector.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.attribute_value_selector.id_for_label }}" class="block text-gray-700 mb-2">
+                        {{ form.attribute_value_selector.label }}
+                    </label>
+                    {{ form.attribute_value_selector }}
+                    {% if form.attribute_value_selector.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {{ form.attribute_value_selector.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="flex items-center mt-6">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md">
+                    Запустить скрапинг
+                </button>
+                <a href="{% url 'products:product_list' %}" class="ml-4 text-gray-600 hover:text-gray-800">
+                    Отмена
+                </a>
+            </div>
+        </form>
+        
+        <div class="mt-8 border-t pt-6">
+            <h2 class="text-lg font-semibold mb-3">Полезные инструменты для определения селекторов</h2>
+            
+            <p class="mb-4">Для определения CSS селекторов вы можете использовать инструменты разработчика в вашем браузере:</p>
+            
+            <ol class="list-decimal ml-6 mb-4">
+                <li class="mb-2">Откройте страницу с товарами в браузере</li>
+                <li class="mb-2">Нажмите правой кнопкой мыши на элемент (например, название товара) и выберите "Inspect" или "Просмотреть код"</li>
+                <li class="mb-2">В панели элементов найдите HTML-элемент и посмотрите его классы или ID</li>
+                <li class="mb-2">Используйте эти классы или ID для создания CSS селектора (например, ".product-title" или "#product-name")</li>
+            </ol>
+            
+            <div class="bg-gray-100 p-4 rounded">
+                <p class="font-semibold mb-2">Примеры CSS селекторов:</p>
+                <ul class="list-disc ml-6">
+                    <li><code class="bg-gray-200 px-1">.product-card</code> - выбирает все элементы с классом "product-card"</li>
+                    <li><code class="bg-gray-200 px-1">.product-list .item</code> - выбирает элементы с классом "item" внутри элементов с классом "product-list"</li>
+                    <li><code class="bg-gray-200 px-1">.product .title h3</code> - выбирает элементы h3 внутри элементов с классом "title", которые находятся внутри элементов с классом "product"</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

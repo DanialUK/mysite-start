@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Импорт товаров{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <h1 class="text-2xl font-bold mb-6">Импорт товаров</h1>
+        
+        <!-- Навигация по методам импорта -->
+        <div class="flex mb-8 border-b">
+            <a href="{% url 'products:import_products' %}" class="px-4 py-2 font-semibold border-b-2 border-blue-500 text-blue-600">
+                Импорт из файла
+            </a>
+            <a href="{% url 'products:import_api' %}" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                Импорт через API
+            </a>
+            <a href="{% url 'products:import_scraping' %}" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                Импорт через веб-скрапинг
+            </a>
+        </div>
+        
+        <div class="mb-8">
+            <h2 class="text-lg font-semibold mb-3">Инструкция по импорту</h2>
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                <p class="mb-2"><strong>CSV формат:</strong> Файл должен содержать следующие колонки:</p>
+                <ul class="list-disc ml-6 mb-3">
+                    <li>name - название товара (обязательно)</li>
+                    <li>description - описание товара (обязательно)</li>
+                    <li>price - цена товара (обязательно)</li>
+                    <li>stock - количество на складе (обязательно)</li>
+                    <li>category - название категории (обязательно)</li>
+                    <li>sku - артикул товара (обязательно, уникальный)</li>
+                    <li>slug - URL-имя товара (опционально)</li>
+                    <li>is_active - активен ли товар (опционально, по умолчанию True)</li>
+                    <li>featured - рекомендуемый товар (опционально, по умолчанию False)</li>
+                </ul>
+                
+                <p class="mb-2"><strong>JSON формат:</strong> Более расширенный формат с поддержкой атрибутов товаров.</p>
+                <p class="mb-2"><strong>XML формат:</strong> Аналогичен JSON, позволяет импортировать товары с атрибутами.</p>
+                <p class="mb-2"><strong>YAML формат:</strong> Более читаемый формат, поддерживает атрибуты товаров.</p>
+                
+                <p class="text-sm mt-3">
+                    <strong>Примечание:</strong> Для больших файлов импорт может занять продолжительное время.
+                    При обновлении существующих товаров используется артикул (SKU) в качестве идентификатора.
+                </p>
+            </div>
+        </div>
+        
+        <form method="post" enctype="multipart/form-data" class="max-w-xl">
+            {% csrf_token %}
+            
+            <div class="mb-4">
+                <label for="{{ form.file_format.id_for_label }}" class="block text-gray-700 mb-2">
+                    {{ form.file_format.label }}
+                </label>
+                {{ form.file_format }}
+                {% if form.file_format.errors %}
+                <div class="text-red-600 text-sm mt-1">
+                    {{ form.file_format.errors }}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-6">
+                <label for="{{ form.file.id_for_label }}" class="block text-gray-700 mb-2">
+                    {{ form.file.label }}
+                </label>
+                {{ form.file }}
+                {% if form.file.errors %}
+                <div class="text-red-600 text-sm mt-1">
+                    {{ form.file.errors }}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="flex items-center">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md">
+                    Импортировать
+                </button>
+                <a href="{% url 'products:product_list' %}" class="ml-4 text-gray-600 hover:text-gray-800">
+                    Отмена
+                </a>
+            </div>
+        </form>
+        
+        <div class="mt-8 border-t pt-6">
+            <h2 class="text-lg font-semibold mb-3">Пример CSV файла</h2>
+            <pre class="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
+name,description,price,stock,category,sku,slug,is_active,featured
+"Смартфон XYZ","Мощный смартфон с отличной камерой",29990,15,"Электроника","SM-XYZ-001","smartfon-xyz",True,True
+"Наушники ABC","Беспроводные наушники с шумоподавлением",5990,25,"Аксессуары","NH-ABC-002","naushniki-abc",True,False
+            </pre>
+        </div>
+        
+        <div class="mt-8 border-t pt-6">
+            <h2 class="text-lg font-semibold mb-3">Пример YAML файла</h2>
+            <pre class="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
+products:
+  - name: Смартфон XYZ
+    description: Мощный смартфон с отличной камерой
+    price: 29990
+    stock: 15
+    category: Электроника
+    sku: SM-XYZ-001
+    slug: smartfon-xyz
+    is_active: true
+    featured: true
+    attributes:
+      Цвет: Черный
+      Память: 128 ГБ
+      Процессор: Snapdragon 888
+  
+  - name: Наушники ABC
+    description: Беспроводные наушники с шумоподавлением
+    price: 5990
+    stock: 25
+    category: Аксессуары
+    sku: NH-ABC-002
+    slug: naushniki-abc
+    is_active: true
+    featured: false
+    attributes:
+      Цвет: Белый
+      Время работы: 24 часа
+            </pre>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,3 @@
+"""
+Django migrations package initialization
+""" 

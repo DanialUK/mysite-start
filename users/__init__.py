@@ -1,0 +1,3 @@
+"""
+Django users app initialization
+""" 
